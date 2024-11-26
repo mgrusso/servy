@@ -14,14 +14,13 @@ defmodule Servy.Handler do
   def emojifi(conv) , do: conv
 
   def track(%{status: 404, path: path} = conv) do
-    Logger.error "NOT FOUND for url path #{path}"
+    Logger.error "NOT FOUND for url #{path}"
     conv
   end
 
   def track(conv) , do: conv
 
   def rewrite_path(%{path: path} = conv) do
-    Logger.info "Rewriting path"
     regex = ~r{\/(?<thing>\w+)\?id=(?<id>\d+)}
     captures = Regex.named_captures(regex, path)
     rewrite_path_captures(conv, captures)
@@ -75,8 +74,15 @@ defmodule Servy.Handler do
       |> handle_file(conv)
   end
 
+  def route(%{method: "GET", path: "/pages/" <> file} = conv) do
+    Path.expand("../../pages", __DIR__)
+    |> Path.join(file <> ".html")
+    |> File.read
+    |> handle_file(conv)
+  end
+
   def route(%{method: "DELETE", path: path} = conv) do
-    Logger.warning "Illegal method requested"
+    Logger.warning "We do not delete bears here!"
     %{conv | status: 403, resp_body: "You are not allowwed to delete #{path}"}
   end
 
