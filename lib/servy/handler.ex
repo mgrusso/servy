@@ -1,6 +1,12 @@
 defmodule Servy.Handler do
+  @moduledoc """
+  Handles HTTP requests.
+  """
   require Logger
 
+  @pages_path Path.expand("../../pages", __DIR__)
+
+  @doc "Transforms the request into a response."
   def handle(request) do
     request
     |> parse
@@ -11,8 +17,7 @@ defmodule Servy.Handler do
     |> format_response
   end
 
-  def emojifi(conv) , do: conv
-
+  @doc "Logs 404 requests"
   def track(%{status: 404, path: path} = conv) do
     Logger.error "NOT FOUND for url #{path}"
     conv
@@ -57,7 +62,7 @@ defmodule Servy.Handler do
   end
 
   def route(%{method: "GET", path: "/bears/new"} = conv) do
-    Path.expand("../../pages", __DIR__)
+    @pages_path
     |> Path.join("form.html")
     |> File.read
     |> handle_file(conv)
@@ -68,14 +73,14 @@ defmodule Servy.Handler do
   end
 
   def route(%{method: "GET", path: "/about"} = conv) do
-      Path.expand("../../pages", __DIR__)
-      |> Path.join("about.html")
-      |> File.read
-      |> handle_file(conv)
+    @pages_path
+    |> Path.join("about.html")
+    |> File.read
+    |> handle_file(conv)
   end
 
   def route(%{method: "GET", path: "/pages/" <> file} = conv) do
-    Path.expand("../../pages", __DIR__)
+    @pages_path
     |> Path.join(file <> ".html")
     |> File.read
     |> handle_file(conv)
@@ -90,6 +95,7 @@ defmodule Servy.Handler do
     %{conv | status: 404, resp_body: "No #{path} here!"}
   end
 
+  @doc "Set the response body to the file content or error message"
   def handle_file({:ok, contents}, conv) do
     %{ conv | status: 200, resp_body: contents}
   end
