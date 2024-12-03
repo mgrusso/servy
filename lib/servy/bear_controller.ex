@@ -26,4 +26,9 @@ defmodule Servy.BearController do
         resp_body: "Created a #{type} bear named #{name}!" }
   end
 
+#  def delete(%Conv{path: path} = conv) do
+  def delete(%{path: path} = conv) do
+    %{conv | status: 403, resp_body: "You are not allowed to delete #{path}"}
+  end
+
 end

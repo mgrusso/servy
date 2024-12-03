@@ -61,9 +61,8 @@ defmodule Servy.Handler do
     |> handle_file(conv)
   end
 
-  def route(%Conv{method: "DELETE", path: path} = conv) do
-    Logger.warning "We do not delete bears here!"
-    %{conv | status: 403, resp_body: "You are not allowwed to delete #{path}"}
+  def route(%Conv{method: "DELETE"} = conv) do
+    BearController.delete(conv)
   end
 
   def route(%Conv{ path: path } = conv) do
@@ -119,17 +118,17 @@ IO.puts(response)
 #IO.puts(response)
 #
 #
-#request = """
-#DELETE /bears/1 HTTP/1.1
-#Host: example.com
-#User-Agent: ExampleBrowser/1.0
-#Accept: */*
-#
-#"""
-#
-#response = Servy.Handler.handle(request)
-#
-#IO.puts(response)
+request = """
+DELETE /bears/1 HTTP/1.1
+Host: example.com
+User-Agent: ExampleBrowser/1.0
+Accept: */*
+
+"""
+
+response = Servy.Handler.handle(request)
+
+IO.puts(response)
 #
 request = """
 GET /about HTTP/1.1
