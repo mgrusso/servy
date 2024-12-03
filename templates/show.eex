@@ -1,4 +1,4 @@
-<h1>Bear <%= bear.id %>: <%= bear.name %></h1>
+<h1>ShowBear</h1>
 <p>
-    Is Name hibernating? <strong><%= if bear.hibernating do %>yes<% else %>no<% end %></strong>
+  Is <%= bear.name %> hibernating? <strong><%= bear.hibernating %></strong>
 </p>
