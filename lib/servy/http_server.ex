@@ -12,7 +12,7 @@ defmodule Servy.HttpServer do
   """
   def start(port) when is_integer(port) and port > 1023 do
     {:ok, listen_socket} =
-      :gen_tcp.listen(5678, [:binary, packet: :raw, active: false, reuseaddr: true])
+      :gen_tcp.listen(port, [:binary, packet: :raw, active: false, reuseaddr: true])
 
     IO.puts "\n🎧 Listening for connection requests on port #{port}...\n"
 
@@ -28,7 +28,7 @@ defmodule Servy.HttpServer do
 
     IO.puts "⚡ Connection_accepted!\n"
 
-    serve(client_socket)
+    spawn(fn -> serve(client_socket) end)
     accept_loop(listen_socket)
   end
 
@@ -37,10 +37,11 @@ defmodule Servy.HttpServer do
   sends a response back over the same socket.
   """
   def serve(client_socket) do
-   client_socket
-   |> read_request
-   |> Servy.Handler.handle
-   |> write_response(client_socket)
+    IO.puts "#{inspect self()}"
+    client_socket
+    |> read_request
+    |> Servy.Handler.handle
+    |> write_response(client_socket)
   end
 
   @doc """
