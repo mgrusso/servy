@@ -16,7 +16,7 @@ defmodule Servy.Handler do
     request
     |> parse
     |> rewrite_path
-    #|> log
+    |> log
     |> route
     |> track
     |> format_response
@@ -28,7 +28,7 @@ defmodule Servy.Handler do
     %{ conv | status: 200, resp_body: "Awake!" }
   end
 
-  def route(%Conv{method: "GET", path: "/kaboom" <> time } = conv) do
+  def route(%Conv{method: "GET", path: "/kaboom"}) do
     raise "Kaboom!"
   end
 
