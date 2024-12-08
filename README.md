@@ -1,21 +1,5 @@
 # Servy
 
-**TODO: Add description**
+**A basic demo http server**
 
-## Installation
-
-If [available in Hex](https://hex.pm/docs/publish), the package can be installed
-by adding `servy` to your list of dependencies in `mix.exs`:
-
-```elixir
-def deps do
-  [
-    {:servy, "~> 0.1.0"}
-  ]
-end
-```
-
-Documentation can be generated with [ExDoc](https://github.com/elixir-lang/ex_doc)
-and published on [HexDocs](https://hexdocs.pm). Once published, the docs can
-be found at <https://hexdocs.pm/servy>.
-
+Thist projects single and only purpose is for me to learn the elixir programming language
