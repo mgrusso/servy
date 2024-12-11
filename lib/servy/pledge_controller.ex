@@ -7,7 +7,7 @@ defmodule Servy.PledgeController do
   end
 
   def index(conv) do
-    pledges = Servy.PledgeServer.recent_pledged()
+    pledges = Servy.PledgeServer.recent_pledges()
 
     %{ conv | status: 200, resp_body: (inspect pledges) }
   end
